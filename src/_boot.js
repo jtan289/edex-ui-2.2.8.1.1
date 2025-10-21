@@ -74,7 +74,7 @@ try {
 // Create default settings file
 if (!fs.existsSync(settingsFile)) {
     fs.writeFileSync(settingsFile, JSON.stringify({
-        shell: (process.platform === "win32") ? "powershell.exe" : "bash",
+        shell: (process.platform === "win32") ? "powershell.exe" : "zsh",
         shellArgs: '',
         cwd: electron.app.getPath("userData"),
         keyboard: "en-US",

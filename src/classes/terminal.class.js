@@ -406,7 +406,19 @@ class Terminal {
                 }
             }, 1000);
 
-            this.tty = this.Pty.spawn(opts.shell || "bash", (opts.params.length > 0 ? opts.params : (process.platform === "win32" ? [] : ["--login"])), {
+            let params = [];
+
+            if (Array.isArray(opts.params)) {
+                params = opts.params;
+            } else if (typeof opts.params === "string") {
+                params = opts.params.trim().length > 0 ? opts.params.trim().split(/\s+/) : [];
+            } else if (typeof opts.params !== "undefined" && opts.params !== null) {
+                params = [String(opts.params)];
+            }
+
+            const spawnArgs = params.length > 0 ? params : (process.platform === "win32" ? [] : ["--login"]);
+
+            this.tty = this.Pty.spawn(opts.shell || "zsh", spawnArgs, {
                 name: opts.env.TERM || "xterm-256color",
                 cols: 80,
                 rows: 24,
